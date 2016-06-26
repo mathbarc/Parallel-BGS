@@ -12,4 +12,6 @@ void rgba_to_greyscale(const uchar4* const rgbaImage,
                        unsigned char* const greyImage,
                        int numRows, int numCols);
 
+
+void trataImagem(const unsigned char* imgin, const unsigned char* imgout, int cols, int rows);
 #endif
