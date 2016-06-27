@@ -12,7 +12,7 @@ void gaussian_blur(const unsigned char* const inputChannel,
                    const float* const filter, const int filterWidth);
 
 __global__
-void rgba_to_greyscale(const uchar4* const rgbaImage,
+void rgb_to_greyscale(const unsigned char* const bgrImage,
                        unsigned char* const greyImage,
                        int numRows, int numCols);
 

@@ -34,7 +34,7 @@ void gaussian_blur(const unsigned char* const inputChannel,
 
 
 __global__
-void rgba_to_greyscale(const uchar4* const rgbaImage,
+void rgb_to_greyscale(const unsigned char* const bgrImage,
                        unsigned char* const greyImage,
                        int numRows, int numCols)
 {
@@ -42,9 +42,7 @@ void rgba_to_greyscale(const uchar4* const rgbaImage,
  int i = blockIdx.x * blockDim.x + threadIdx.x;// determina iteração das linhas
  int j = blockIdx.y * blockDim.y + threadIdx.y; //determina iteração das colunas
     if(i<numRows && j< numCols){
-            uchar4 rgba = rgbaImage[i*numCols + j];
-            float channelSum = .299f * rgba.x + .587f * rgba.y + .114f * rgba.z;
-            greyImage[i*numCols +j]= channelSum;
+            
         
     }
     

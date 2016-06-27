@@ -6,6 +6,6 @@
 typedef unsigned char uchar;
 
 __global__
-void BGS(uchar* buffer, int size, uchar* frame, int frame_size);
+void BGS(uchar* buffer, int size, uchar* frame, int frame_size, uchar* frameOut);
 
 #endif
