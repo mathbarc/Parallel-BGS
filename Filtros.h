@@ -1,5 +1,9 @@
 #ifndef FILTROS_H
 #define FILTROS_H 1
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+
+
 
 __global__
 void gaussian_blur(const unsigned char* const inputChannel,

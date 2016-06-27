@@ -1,6 +1,10 @@
 #ifndef MEMHANDLER_H
 #define MEMHANDLER_H 1
 
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+
+
 __global__
 void copyImgToGPU(const unsigned char* frameEntrada, const unsigned char* img, int cols, int rows);
 
