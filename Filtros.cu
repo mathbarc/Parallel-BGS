@@ -42,8 +42,11 @@ void rgb_to_greyscale(const unsigned char* const bgrImage,
  int i = blockIdx.x * blockDim.x + threadIdx.x;// determina iteração das linhas
  int j = blockIdx.y * blockDim.y + threadIdx.y; //determina iteração das colunas
     if(i<numRows && j< numCols){
-            
-        
+       //Y = 0.2126R + 0.7152G + 0.0722B
+       float b = *(bgrImage+i*numCols+j);
+       float g = *(bgrImage+1*numCols*numRows+i*numCols+j);
+       float r = *(bgrImage+2*numCols*numRows+i*numCols+j);
+       *(greyImage+i*numCols+j) = (unsigned char)(0.2126*r + 0.7152*g + 0.722*b);
     }
     
     
