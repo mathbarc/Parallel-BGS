@@ -33,6 +33,8 @@ int main(int argc, char** argv){
 	int pos = 0;
 	alloc(d_framein, d_framet, d_frameint, d_fore, d_buffer, cols, rows, buff_size);
 
+
+
 	cv::Mat frame;
 	in >> frame;
 	while(!frame.empty()){
