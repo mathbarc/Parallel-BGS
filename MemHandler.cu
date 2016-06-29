@@ -14,11 +14,6 @@ void d_putInBuffer(const unsigned char* BUFF, const unsigned char* frameAtual, i
 }
 
 
-void copyImgToGPU(const unsigned char* frameEntrada, const unsigned char* img, int cols, int rows){
-	cudaMemcpy(frameEntrada, img, sizeof(uchar) * cols*rows, cudaMemcpyHostToDevice);
-}
-
-
 void putInBuffer(const unsigned char* BUFF, const unsigned char* frameAtual, int cols, int rows, int sizeBUFF, int pos){
 	const dim3 block(BLOCK_SIZE_X,BLOCK_SIZE_Y,1);
 	const dim3 grid(rows/BLOCK_SIZE_X,cols/BLOCK_SIZE_Y,1);
