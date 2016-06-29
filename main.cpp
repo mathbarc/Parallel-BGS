@@ -39,8 +39,8 @@ int main(int argc, char** argv){
 	in >> frame;
 	while(!frame.empty()){
 		copyImgToGPU(d_framein,frame.ptr<unsigned char>(),cols,rows);
-		rgb_to_greyscale(d_framein, d_framet, rows, cols);
-		gaussian_blur(d_framet, , rows, cols, const float* const filter, const int filterWidth);
+		rgb_to_greyscale(d_framein, d_frameint, rows, cols);
+		gaussian_blur(d_frameint, d_framet, rows, cols, const float* const filter, const int filterWidth);
 
 		BGS(d_buffer, buff_size, d_framet, cols*rows, d_fore);
 		putInBuffer(d_buffer, d_framet, cols, rows, buff_size, pos);
