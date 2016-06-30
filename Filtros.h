@@ -5,13 +5,13 @@
 
 
 
-__global__
+
 void gaussian_blur(const unsigned char* const inputChannel,
                    unsigned char* const outputChannel,
                    int numRows, int numCols,
                    const float* const filter, const int filterWidth);
 
-__global__
+
 void rgb_to_greyscale(const unsigned char* const bgrImage,
                        unsigned char* const greyImage,
                        int numRows, int numCols);

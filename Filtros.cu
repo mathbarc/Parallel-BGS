@@ -1,6 +1,6 @@
 #include "Filtros.h"
 __global__
-void gaussian_blur(const unsigned char* const inputChannel,
+void gaussian_blur_d(const unsigned char* const inputChannel,
                    unsigned char* const outputChannel,
                    int numRows, int numCols,
                    const float* const filter, const int filterWidth)
@@ -34,7 +34,7 @@ void gaussian_blur(const unsigned char* const inputChannel,
 
 
 __global__
-void rgb_to_greyscale(const unsigned char* const bgrImage,
+void rgb_to_greyscale_d(const unsigned char* const bgrImage,
                        unsigned char* const greyImage,
                        int numRows, int numCols)
 {
@@ -48,6 +48,24 @@ void rgb_to_greyscale(const unsigned char* const bgrImage,
        float r = *(bgrImage+2*numCols*numRows+i*numCols+j);
        *(greyImage+i*numCols+j) = (unsigned char)(0.2126*r + 0.7152*g + 0.722*b);
     }
-    
-    
+     
 }
+
+void gaussian_blur(const unsigned char* const inputChannel,
+                   unsigned char* const outputChannel,
+                   int numRows, int numCols,
+                   const float* const filter, const int filterWidth){
+
+	const dim3 block(BLOCK_SIZE_X,BLOCK_SIZE_Y,1);
+	const dim3 grid(rows/BLOCK_SIZE_X,cols/BLOCK_SIZE_Y,1);
+	gaussian_blur_d<<<block,grid>>>(inputChannel, outputChannel, numRows, numCols, filter, filterWidth);
+}
+
+
+void rgb_to_greyscale(const unsigned char* const bgrImage,
+                       unsigned char* const greyImage,
+                       int numRows, int numCols);
+	const dim3 block(BLOCK_SIZE_X,BLOCK_SIZE_Y,1);
+	const dim3 grid(rows/BLOCK_SIZE_X,cols/BLOCK_SIZE_Y,1);
+	rgb_to_greyscale_d<<<block,grid>>>(bgrImage, greyImage, numRows, numCols);
+

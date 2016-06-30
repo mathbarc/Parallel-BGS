@@ -4,6 +4,7 @@
 #include <iostream>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
+#include <device_launch_parameters.h>
 #include <vector>
 #include <ctime>
 
