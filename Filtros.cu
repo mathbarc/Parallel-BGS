@@ -1,4 +1,9 @@
 #include "Filtros.h"
+
+#define BLOCK_SIZE_X 8
+#define BLOCK_SIZE_Y 8
+
+
 __global__
 void gaussian_blur_d(const unsigned char* const inputChannel,
                    unsigned char* const outputChannel,
@@ -57,7 +62,7 @@ void gaussian_blur(const unsigned char* const inputChannel,
                    const float* const filter, const int filterWidth){
 
 	const dim3 block(BLOCK_SIZE_X,BLOCK_SIZE_Y,1);
-	const dim3 grid(rows/BLOCK_SIZE_X,cols/BLOCK_SIZE_Y,1);
+	const dim3 grid(numRows/BLOCK_SIZE_X,numCols/BLOCK_SIZE_Y,1);
 	gaussian_blur_d<<<block,grid>>>(inputChannel, outputChannel, numRows, numCols, filter, filterWidth);
 }
 
@@ -66,7 +71,7 @@ void rgb_to_greyscale(const unsigned char* const bgrImage,
                        unsigned char* const greyImage,
                        int numRows, int numCols){
 	const dim3 block(BLOCK_SIZE_X,BLOCK_SIZE_Y,1);
-	const dim3 grid(rows/BLOCK_SIZE_X,cols/BLOCK_SIZE_Y,1);
+	const dim3 grid(numRows/BLOCK_SIZE_X,numCols/BLOCK_SIZE_Y,1);
 	rgb_to_greyscale_d<<<block,grid>>>(bgrImage, greyImage, numRows, numCols);
 
 }

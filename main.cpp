@@ -8,6 +8,8 @@
 #include <vector>
 #include <ctime>
 
+using namespace cv;
+using namespace std;
 
 int main(int argc, char** argv){
 
@@ -16,7 +18,7 @@ int main(int argc, char** argv){
 		return -1;
 	}
 
-	cv::VideoCapture in(argv[1]);
+	VideoCapture in(argv[1]);
 
 	if(!in.isOpened()){
 		std::cout<<argv[1]<<" não pode ser aberto"<<std::endl;
@@ -41,29 +43,35 @@ int main(int argc, char** argv){
 	namedWindow("Resultado", WINDOW_NORMAL);
 
 	std::vector<float> tempos;
+	const float kernel[25] = { 0.0037, 0.0147, 0.0256, 0.0147, 0.0037,
+		0.0147, 0.0586, 0.0952, 0.0586, 0.0147,
+		0.0256, 0.0952, 0.1502, 0.0952, 0.0256,
+		0.0037, 0.0147, 0.0256, 0.0147, 0.0037,
+		0.0147, 0.0586, 0.0952, 0.0586, 0.0147 };
 
-	cv::Mat frame;
+
+	Mat frame;
 	in >> frame;
-	cv::Mat fore(frame.size(),CV_8U);
+	Mat fore(frame.size(),CV_8U);
 	
 	bool begin = false;
 	clock_t temp;
 	while(!frame.empty()){
 		imshow("Original",frame);
 
-		temp = clocks();
-
+		temp = clock();
+		
 		cudaMemcpy(d_framein, frame.ptr<unsigned char>(), sizeof(uchar) * cols*rows, cudaMemcpyHostToDevice);
 
 		rgb_to_greyscale(d_framein, d_frameint, rows, cols);
-		gaussian_blur(d_frameint, d_framet, rows, cols, const float* const filter, const int filterWidth);
+		gaussian_blur(d_frameint, d_framet, rows, cols, kernel, 25);
 
 		BGS(d_buffer, buff_size, d_framet, cols*rows, d_fore);
 
 		putInBuffer(d_buffer, d_framet, cols, rows, buff_size, pos);
-		cudaMemcpy(fore.ptr<unsigned char>(), d_fore, sizeof(uchar) * cols*rows, cudaMemcpyHostToDevice);
+		cudaMemcpy(fore.ptr<unsigned char>(), d_fore, sizeof(uchar) * cols*rows, cudaMemcpyDeviceToHost);
 		
-		temp = temp - clocks();
+		temp = temp - clock();
 
 		imshow("Resultado",fore);
 
